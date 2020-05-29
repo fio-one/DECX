@@ -20,6 +20,9 @@
   display: none !important;
 }
 
+.text-bold {
+  font-weight: bold;
+}
 .text-left {
   text-align: left;
 }
@@ -139,6 +142,23 @@ body {
   background: #ecf0f6;
   border: none;
   padding: 16px 24px;
+}
+
+.static-header {
+  width: 100%;
+  padding: 30px 60px;
+  color: #08305f;
+  font-size: $s-font;
+  line-height: 40px;
+  position: fixed;
+  .navbar-title {
+    float: left;
+    padding: 0;
+  }
+  img {
+    height: 30px;
+    width: auto;
+  }
 }
 .navbar-header {
   width: 100%;
@@ -1417,16 +1437,24 @@ body {
   position: fixed;
   bottom: 0;
   width: 100%;
-  background: #bcd2dd;
+  background: #4381ec;
+  color: #FFF;
   z-index: 5000;
   font-size: $xs-font;
-  padding: 8px 0;
+  padding: 10px 0;
+  a {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
   .btn {
-  background: #1679d1;
-  color: #FFF;
-  padding: 4px 8px;
-  font-size: $xs-font;
-  margin-top: 4px;
+    @include border-radius(4px);
+    background: #eff1fe;
+    color: #377ccd;
+    padding: 4px 8px;
+    font-size: $xs-font;
+    margin-top: 4px;
+    border: none;
   }
 }
 
@@ -1677,7 +1705,72 @@ body {
 
 }
 
+.static-container {
+  background-image: linear-gradient(to bottom, #FFF 50%, #bedcfe);
+  min-height: 100vh;
+}
+.static-content {
+  width: 100%;
+  padding-top: 90px;
+  min-height: 100vh;
+  background: transparent url(../image/login-bg.svg) scroll no-repeat 100% 50%;
+  background-size: 70vw auto;
+  &.register {
+    background-image: url(../image/login-bg.svg);
+  }
+}
 
+.static-form {
+  color: #377ccd;
+  padding: 60px 0;
+  h1 {
+    color: #163860;
+    font-size: 45px;
+    font-weight: bold;
+    margin-bottom: 36px;
+    letter-spacing: 2px;
+    text-align: left;
+    line-height: normal;
+  }
+
+  .form-group {
+    margin-bottom: 30px;
+  }
+  .form-control {
+    @include border-radius(0);
+    @include placeholder {
+      color: rgba(#377ccd, .4);
+      font-size: $s-font;
+    }
+    border: none;
+    border-bottom: 1px solid #377ccd;
+    padding: 18px 0;
+    color: #377ccd;
+    height: auto;
+    font-weight: bold;
+    font-size: $s-font;
+  }
+  .link-text {
+    color: #377ccd;
+    text-decoration: none;
+    font-size: $s-font;
+    margin-bottom: 30px;
+    &:hover {
+      text-decoration: underline;
+    }
+    
+  }
+  .btn {
+    display: block;
+    width: 100%;
+    background: #377ccd;
+    color: #FFF;
+    font-size: $s-font;
+    box-shadow: none;
+    padding: 16px 0;
+    margin-bottom: 30px;
+  }
+}
 
 @import "mobile";
 @import "tablet";
