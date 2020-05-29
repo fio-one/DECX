@@ -11,7 +11,7 @@ Vue.component('comfirm-cookies', {
   data: function() {
     return {}
   },
-  mounted: function () {
+  mounted: function () { 
     var c = this.$cookies.get('cookie_consent_status');
     if(c === null) {
       $('.confirm-cookies-block').removeClass('d-none');

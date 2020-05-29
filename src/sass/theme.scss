@@ -711,7 +711,6 @@ body {
     }
     
     ul {
-      padding: 50px 0;
       li {
         font-size: $xs-font;
         padding: 20px 10px 0 10px;
@@ -748,6 +747,13 @@ body {
           img.active {
             display: none;
           }
+          svg {
+            margin-right: 4px;
+            font-size: $l-font;
+            &.small-icon {
+              font-size: $s-font;
+            }
+          }
           &:after {
             position: absolute;
             top: 0;
@@ -768,9 +774,6 @@ body {
               cursor: inherit;
             }
           }
-        }
-        i.small-icon {
-          font-size: $s-font;
         }
       }
       &.child-nav {

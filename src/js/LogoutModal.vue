@@ -8,7 +8,7 @@ Vue.component('logout-modal', {
         <p class="title">Logout?</p>
         <p>Whether to confirm leaving</p>
         <button type="button" class="btn" data-dismiss="modal">Cancel</button>
-        <a href="/alpha/logout" class="btn">Logout</a>
+        <a href="login.html" class="btn">Logout</a>
       </div>
     </div></div></div></div>
   </div>
