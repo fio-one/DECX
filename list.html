@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="ScreenOrientation" content="autoRotate:disabled">
+<title>DECX</title>
+<meta name="description" content=""/>
+<meta property="og:title" content="DECX"/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content=""/>
+<meta property="og:image" content=""/>
+<meta property="og:description" content=""/>
+<meta property="fb:app_id" content=""/>
+<link href="image/favicon.ico" sizes="any" type="image/svg+xml" rel="icon">
+<link href="image/favicon.png" rel="shortcut icon">	
+	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/vue-cookies@1.7.0/vue-cookies.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios-jsonp-pro@1.1.7/dist/axios.min.js"></script><link href="styles.css?v=1590716427" rel="stylesheet"><script type="text/javascript" src="js/bundle.js?v=1590716427"></script></head>
+<body class="theme-decx lang-en">
+  <div id="vue" class="row page-container">
+    <logout-modal></logout-modal>
+    <nav class="navbar fixed-top nav-container navbar-mobile">
+      <navbar-header :username="username" :type="type"/>
+    </nav>
+    <sidebar :username="username" :type="type" :current-menu="currentMenu"></sidebar>
+
+    <div class="content-container">
+      <div class="title-block-container clearfix">
+        <p class="block-title">List</p>
+      </div>
+      <div class="table-responsive"><table class="table tms-table">
+        <thead>
+          <tr>
+              <th scope="col">Block ID</th>
+              <th scope="col">Case ID</th>
+              <th scope="col">Data Source ID</th>
+              <th scope="col">Date Created</th>
+              <th scope="col">Active</th>
+              <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(row, index) in list">
+            <td v-text="row._id"></td>
+            <td v-text="row.name"></td>
+            <td>
+              <a :href="'https://docs.google.com/spreadsheets/d/'+row.sheet" target="_blank"></a>
+            </td>
+            <td v-text="toLocalTime(row.date)"></td>
+            <td>
+              <span class="tms-switch">
+                <input type="checkbox" class="tms-switch-input" :id="'status-switch-' + row._id" @change="changeStatus(index)" v-model="row.enabled">
+                <label class="tms-switch-label" :for="'status-switch-' + row._id"></label>
+              </span>
+            </td>
+            <td>
+              <a class="btn btn-sm btn-blue" href="edit.html">Edit</a>
+              <a class="btn btn-sm btn-blue" href="view.html">View</a>
+              <a class="btn btn-sm btn-blue" href="log.html">Log</a>
+            </td>
+          </tr>
+        </tbody>
+      </table></div>
+    </div>
+    <comfirm-cookies></comfirm-cookies>
+  </div>
+</body>
+</html>

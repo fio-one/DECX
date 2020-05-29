@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="ScreenOrientation" content="autoRotate:disabled">
+<title>DECX</title>
+<meta name="description" content=""/>
+<meta property="og:title" content="DECX"/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content=""/>
+<meta property="og:image" content=""/>
+<meta property="og:description" content=""/>
+<meta property="fb:app_id" content=""/>
+<link href="image/favicon.ico" sizes="any" type="image/svg+xml" rel="icon">
+<link href="image/favicon.png" rel="shortcut icon">	
+	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/vue-cookies@1.7.0/vue-cookies.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios-jsonp-pro@1.1.7/dist/axios.min.js"></script><link href="styles.css?v=1590716427" rel="stylesheet"><script type="text/javascript" src="js/bundle.js?v=1590716427"></script></head>
+<body class="theme-decx lang-en">
+  <div id="vue" class="row page-container">
+    <logout-modal></logout-modal>
+    <nav class="navbar fixed-top nav-container navbar-mobile">
+      <navbar-header :username="username" :type="type"/>
+    </nav>
+    <sidebar :username="username" :type="type" :current-menu="currentMenu"></sidebar>
+
+    <div class="content-container">
+      <div class="create-fio-container">
+        <div class="create-fio-header row">
+          <!-- stepper -->
+          <ul class="step-list col-md-10">
+              <li v-for="(title, index) in steps" :class="{ 'done' : (index+1) <= step, 'active' : (index+1) == step}" class="clearfix">
+                <div class="icon-area float-left">
+                  <span class="icon" v-text="index+1"></span>
+                  <span class="icon icon-active"><i class="fas fa-pen"></i></span>
+                </div>
+                <p class="step-title float-left">
+                <span v-if="(index+1) === 5">Finish</span>
+                <span v-else v-text="'Step '+(index+1)"></span>
+              </p>
+              <div v-if="(index+1) !== 5" class="progress-line float-left"></div>
+                <p class="sub-title float-left" v-text="title" v-if="(index+1) !== 5"></p>
+              </li>
+            </ul>
+          <div class="col-md-2">
+            <button class="btn btn-blue-border" type="button" @click="prev()"  v-if="step !== 4 && step !== 5">Back</button>
+            <button class="btn btn-secondary btn-blue" @click="next()" type="button" v-if="step === 1">Next</button>
+            <button class="btn btn-secondary btn-blue" @click="createFiO()" type="button" v-if="step === 3">Next</button>
+            <button class="btn btn-secondary btn-blue" @click="update()" type="button" v-if="step === 4">COMPLETE</button>
+          </div>
+        </div>
+          <!-- Loading -->
+          <div class="create-fio-loading-container text-center d-none" id="loading-view">
+            <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+            <p>Loading...</p>
+          </div>
+          <!-- Step1 -->
+          <div class="create-fio-block" id="step1-selector" v-if="step === 1">
+            <div class="title-block-container">
+              <p class="block-title">Choose one of your e-commerce needs</p>
+            </div>
+            <div class="row">
+              <!-- option -->
+              <div class="col-md-3"><div class="type-group">
+                <input type="radio" name="type" v-model="type" value="shopee" require :checked="type == 'shopee'" id="type-shopee">
+                <label for="type-shopee" class="center-flexbox">
+                  <img src="image/shopee.png">
+                </label>
+                <div class="checkbox"></div>
+              </div></div>
+
+              <div class="col-md-3"><div class="type-group">
+                <input type="radio" name="type" v-model="type" value="taobao" require :checked="type == 'taobao'" id="type-taobao">
+                <label for="type-taobao" class="center-flexbox">
+                  <img src="image/taobao.svg">
+                </label>
+                <div class="checkbox"></div>
+              </div></div>
+            </div>
+          </div>
+          <!-- Step2 -->
+          <div class="create-fio-block" id="step2-container" v-if="step === 2">
+            <div class="title-block-container">
+              <p class="block-title">Connect with Google Drive</p>
+              <p class="block-info">Grant the permission to view and update with your Google Sheets</p>
+            </div>
+            <div class="col-md-6">
+              <div class="connect-block clearfix m-b-30">
+                <p class="float-left title">
+                  <img class="icon" src="image/icon/google-drive.svg">
+                  Google Drive
+                </p>
+                <button class="btn btn-blue-border float-right" @click="getAuth">Connect</button>
+              </div>
+            </div>
+          </div>
+          <!-- Step3 -->
+          <div class="create-fio-block" id="step3-container" v-if="step === 3">
+            <div class="title-block-container">
+              <p class="block-title">Link your Google Sheets to DECX</p>
+              <p class="block-info">Open Google Sheets in New Window</p>
+            </div>
+            <div class="row">
+              <div class="col-md-6"><div class="clearfix connect-block">
+                <p class="float-left title">
+                  <img class="icon" src="image/icon/google-drive.svg">
+                  Google Drive
+                </p>
+                <a class="btn btn-blue-border float-right" href="https://docs.google.com/spreadsheets/" target="_blank">OPEN</a>
+              </div></div>
+              <div class="col-md-6">
+                <div class="connect-block clearfix">
+                  <p class="float-left title">
+                    <img class="icon" src="image/icon/google-sheet.svg">
+                    Templates
+                  </p>
+                  <a target="_blank" href="https://drive.google.com/drive/u/0/folders/1zGoGfM-9OA7WBea7Jd7pCcovQLYMiVkM" class="btn btn-blue-border float-right">OPEN</a>
+                </div>
+                <p class="connect-info">We provide some templates for you to use.<br>Just click open then clone a copy to your Google Drive and modify it by yourself!</p>
+              </div>
+              <div class="col-md-6">
+                <img src="image/step3.jpg">
+                <p class="connect-info">Reference picture</p>
+              </div>
+              <div class="col-md-6"><div class="create-fio-content">
+                <p class="error-msg d-none" id="step3-error-msg">
+                    OOPS! there was something wrong!<br>
+                    Please CHECK your Google sheets URL and Tab name below. :)
+                  </p>
+                  <div class="form-group" id="form-group-sheet">
+                      <label>* The address of the Google sheets to link with DECX</label>
+                      <input v-model="sheetUrl" class="form-control" type="text" placeholder="Enter your Google sheets URL" require :readonly="fio._id !== 0">
+                      <div class="invalid-feedback"></div>
+                  </div>
+                  <div class="form-group" id="form-group-tab">
+                      <label>* The Tab Name under your linked Google Sheets</label>
+                      <input v-model="fio.tab" class="form-control" type="text" placeholder="Enter the Tab Name under your Google Sheets linked to DECX" require :readonly="fio._id !== 0">
+                      <div class="invalid-feedback"></div>
+                  </div>
+                <div class="form-group" id="form-group-fio_name">
+                      <label>* DECX ID Name for Google Sheets</label>
+                      <input v-model="fio.name" class="form-control" type="text" placeholder="Enter your DECX Case ID name" require @keyup.enter="addFiOName()" :readonly="fio._id !== 0">
+                      <p class="form-text">Your Case ID Name will be the same as Google Sheets file name if left blank.</p>
+                      <div class="invalid-feedback"></div>
+                  </div>
+              </div></div>
+            </div>
+        </div>
+        <!-- Step4 -->
+        <div class="create-fio-block" id="step4-container" v-if="step === 4"><div class="create-fio-block-inner">
+          <div class="create-fio-content">
+            <div class="header-block clearfix" style="margin-bottom: 15px;">
+              <p class="title float-left">Settings</p>
+            </div>
+  <div class="row" v-for="(api, i) in fio.apis">
+    <div class="col-md-8"><div class="setting-cloumn-block">
+      <div class="title-block-container">
+          <p class="block-title">Input data on the blockchain</p>
+          <p class="block-info">Select the name of the column and click the button add for confirmation.</p>
+      </div>
+      <div class="row customize-group add" id="add-column-container">
+          <div class="col-md-6" id="form-group-add-field">
+              <label>* Select the column for inputting data on blockchain</label>
+              <fio-field v-model="field" :options="fields" type="insert"></fio-field>
+              <p class="form-text">Select Column that triggers DECX operation.</p>
+          </div>
+          <div class="col-md-5" id="form-group-add-key">
+              <label>* Name</label>
+              <input v-model="key" class="form-control text-control" type="text" required/>
+              <p class="form-text">Select a custom name for this column in DECX(can be the same as the column name)</p>
+          </div>
+          <div class="col-md-1">
+              <button class="btn btn-nor btn-icon" @click="addColumn(key)"><img src="image/icon/icon-add.svg"></button>
+          </div>
+      </div>
+      <div v-for="(value, key, index) in api.input"><div class="row customize-group" v-if="key !== 'data'" :id="'form-group-coustom-'+index">
+          <div class="col-md-6">
+              <label>* Select the column for inputting data on blockchain</label>
+              <fio-field v-model="api.input[key]" :options="fields"></fio-field>
+              <div class="invalid-feedback"></div>
+          </div>
+          <div class="col-md-5">
+              <label>* Name</label>
+              <p class="form-control text-control" v-text="key"></p>
+          </div>
+          <div class="col-md-1">
+              <button class="btn btn-nor btn-icon" @click="delColumn(key)"><img src="image/icon/icon-delete.svg"></button>
+          </div>
+      </div></div>
+    </div></div>
+    <div class="col-md-4"><div class="setting-cloumn-block no-border">
+      <div class="title-block-container">
+          <p class="block-title">Output data from blockchain</p>
+      </div>
+      <div class="form-group" id="form-group-hash">
+          <label>* Transaction ID</label>
+          <fio-field v-model="api.output.hash" :options="fields" :auto="'Transaction ID'"></fio-field>
+          <p class="form-text">Select the column associated with "Transaction ID".</p>
+      </div>
+      <div class="form-group" id="form-group-url">
+        <label>* Token ID</label>
+        <fio-field v-model="api.output.token_id" :options="fields" :auto="'Token ID'"></fio-field>
+        <p class="form-text">Select the column associated with "Token ID".</p>
+      </div>
+
+      <div class="title-block-container">
+          <p class="block-title">Status</p>
+      </div>
+      <div class="form-group" id="form-group-confirm">
+          <label>* Transaction Status</label>
+          <fio-field v-model="fio.confirm" :options="fields" :auto="'Transaction Status'"></fio-field>
+          <p class="form-text">Select the column of the spreadsheets for the result of "Transaction Status".</p>
+          <p class="form-text">Please input default data on this column as "V"</p>
+      </div>
+    </div></div>
+  </div>
+            </div>
+        </div></div>
+          <!-- Step5 -->
+          <div class="create-fio-block" id="step5-container" v-if="step === 5">
+            <div class="title-block-container">
+              <p class="block-title">Finsh</p>
+              <p class="block-info">Before completion, please fillin "V" on your Google Sheets field linked to "Status" on Step4.</p>
+            </div>
+            <div class="col-md-6"><img src="/img/beta/step5.png"></div>
+            <div class="title-block-container">
+              <p class="block-title">Then</p>
+              <p class="block-info">Press button under the "DECX" now, "Enable".</p>
+            </div>
+            <span class="tms-switch">
+                <input type="checkbox" class="tms-switch-input" :id="'status-switch-' + fio._id" @change="changeStatus()" v-model="fio.enabled">
+                <label class="tms-switch-label" :for="'status-switch-' + fio._id"></label>
+            </span>
+            <div class="title-block-container">
+              <p class="block-info">Click the button below to return to the page.</p>
+            </div>
+            <a class="btn btn-secondary btn-blue" @click="go">GO</a>
+        </div>
+      </div>
+    </div>
+    <comfirm-cookies></comfirm-cookies>
+  </div>
+</body>
+</html>
