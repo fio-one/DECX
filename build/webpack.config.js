@@ -53,6 +53,18 @@ module.exports = {
             data: data
         }),
         new HtmlWebpackPlugin({
+            template: path.join(projectRoot, 'src/register.twig'),
+            filename: 'register.html',
+            inject: 'head',
+            data: data
+        }),
+        new HtmlWebpackPlugin({
+            template: path.join(projectRoot, 'src/forget-password.twig'),
+            filename: 'forget-password.html',
+            inject: 'head',
+            data: data
+        }),
+        new HtmlWebpackPlugin({
             template: path.join(projectRoot, 'src/add.twig'),
             filename: 'add.html',
             inject: 'head',
