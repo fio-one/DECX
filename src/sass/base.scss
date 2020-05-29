@@ -1,0 +1,74 @@
+//color
+$base-color: #5f7580;
+$primary-color: #2196F3;
+$success-color: #009389;
+$danger-color: #b3001d;
+$warning-color: #f38200;
+
+$grey-color: #3c4a51;
+
+
+//font
+$xs-font: 14px;
+$s-font: 16px;
+$m-font: 18px;
+$l-font: 20px;
+$xl-font: 24px;
+$xxl-font: 36px;
+
+h1, h2, h3, h4, h5, h6, p, span {
+  margin: 0px;
+}
+
+a {
+  text-decoration: none;
+  display: block;
+  &:hover, &:focus , &:active {
+    outline: none !important;
+    text-decoration: none;
+  }
+}
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  li {
+    list-style: none;
+  }
+}
+
+img {
+  width: 100%;
+  height: auto;
+  vertical-align: top;
+}
+
+::-webkit-input-placeholder, :-moz-placeholder, ::-moz-placeholder, :-ms-input-placeholder {
+  font-weight: normal;
+}
+
+button {
+  outline: none !important;
+  box-shadow: none;
+  &:focus, &:active {
+    outline: none !important;
+    box-shadow: none;
+  }
+}
+
+.font-xxl {
+  font-size: $xxl-font;
+}
+
+//mixin
+@mixin border-radius($radius: 1px) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+          border-radius: $radius;
+}
+@mixin placeholder {
+    &::-webkit-input-placeholder {@content}
+    &:-moz-placeholder           {@content}
+    &::-moz-placeholder          {@content}
+    &:-ms-input-placeholder      {@content}  
+}

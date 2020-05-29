@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% include 'partial/header.twig' %}
+	{% include 'partial/lib.twig' %}
+</head>
+<body class="theme-decx lang-{{ htmlWebpackPlugin.options.data.lang }}">
+  <div id="vue" class="row page-container">
+    <logout-modal></logout-modal>
+    <nav class="navbar fixed-top nav-container navbar-mobile">
+      <navbar-header :username="username" :type="type"/>
+    </nav>
+    <sidebar :username="username" :type="type" :current-menu="currentMenu"></sidebar>
+
+    <div class="content-container">
+          <div class="create-fio-container">
+                <div class="create-fio-header row">
+                    <ul class="step-list col-md-9">
+                        <li class="clearfix active">
+                            <div class="icon-area float-left">
+                                <span class="icon icon-active"><i class="fas fa-pen"></i></span>
+                            </div>
+                            <p class="step-title float-left"><span>Edit</span></p>
+                            <div class="progress-line float-left"></div>
+                            <p class="sub-title float-left">Subtitle</p>
+                        </li>
+                    </ul>
+                    <div class="col-md-3">
+                        <a href="list.html" class="btn btn-blue-border">Back</a>
+                        <button class="btn btn-blue" @click="edit()" type="button">Update</button>
+                    </div>
+                </div>
+            <div class="create-fio-block" id="form-container">
+                <div class="create-fio-content" v-for="(api, i) in fio.apis">
+<!-- IOTA -->
+<div v-if="api_type == 'GPG.sign+IOTA.send'" class="row">
+  <div class="col-md-8"><div class="setting-cloumn-block">
+        <div class="title-block-container">
+            <p class="block-title">Input data on the blockchain</p>
+            <p class="block-info">Select the name of the column and click the button add for confirmation.</p>
+        </div>
+        <div class="row customize-group add" id="add-column-container">
+            <div class="col-md-6" id="form-group-add-field">
+                <label>* Select the column for inputting data on blockchain</label>
+                <fio-field v-model="field" :options="fields" type="insert"></fio-field>
+                <p class="form-text">Select Column that triggers FiO operation.</p>
+            </div>
+            <div class="col-md-5" id="form-group-add-key">
+                <label>* Name</label>
+                <input v-model="key" class="form-control text-control" type="text" required/>
+                <p class="form-text">Select a custom name for this column in FiO(can be the same as the column name)</p>
+            </div>
+            <div class="col-md-1">
+                <button class="btn btn-nor btn-icon" @click="addColumn(key)"><img src="image/icon/icon-add.svg"></button>
+            </div>
+        </div>
+        <div v-for="(value, key, index) in api.input"><div class="row customize-group" v-if="key !== 'data'" :id="'form-group-coustom-'+index">
+            <div class="col-md-6">
+                <label>* Select the column for inputting data on blockchain</label>
+                <fio-field v-model="api.input[key]" :options="fields"></fio-field>
+                <div class="invalid-feedback"></div>
+            </div>
+            <div class="col-md-5">
+                <label>* Name</label>
+                <p class="form-control text-control" v-text="key"></p>
+            </div>
+            <div class="col-md-1">
+                <button class="btn btn-nor btn-icon" @click="delColumn(key)"><img src="image/icon/icon-delete.svg"></button>
+            </div>
+        </div></div>
+  </div></div>
+  <div class="col-md-4"><div class="setting-cloumn-block no-border">
+        <div class="title-block-container">
+            <p class="block-title">Output data from blockchain</p>
+        </div>
+        <div class="form-group" id="form-group-hash">
+            <label>* Transaction ID</label>
+            <fio-field v-model="api.output.hash" :options="fields" :auto="'Transaction ID'"></fio-field>
+            <p class="form-text">Select the column associated with "Transaction ID".</p>
+        </div>
+        <div class="form-group" id="form-group-url">
+            <label>* Token ID</label>
+            <fio-field v-model="api.output.token_id" :options="fields" :auto="'Token ID'"></fio-field>
+            <p class="form-text">Select the column associated with "Token ID".</p>
+        </div>
+  
+        <div class="title-block-container">
+            <p class="block-title">Status</p>
+        </div>
+        <div class="form-group" id="form-group-confirm">
+            <label>* Transaction Status</label>
+            <fio-field v-model="fio.confirm" :options="fields" :auto="'Transaction Status'"></fio-field>
+            <p class="form-text">Select the column of the spreadsheets for the result of "Transaction Status".</p>
+            <p class="form-text">Please input default data on this column as "V"</p>
+        </div>
+    </div></div>
+</div>
+          </div>
+            </div>
+          </div>
+        </div>
+    <comfirm-cookies></comfirm-cookies>
+  </div>
+</body>
+</html>

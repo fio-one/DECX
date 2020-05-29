@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% include 'partial/header.twig' %}
+	{% include 'partial/lib.twig' %}
+</head>
+<body class="theme-decx lang-{{ htmlWebpackPlugin.options.data.lang }}">
+  <div id="vue" class="row page-container">
+    <logout-modal></logout-modal>
+    <nav class="navbar fixed-top nav-container navbar-mobile">
+      <navbar-header :username="username" :type="type"/>
+    </nav>
+    <sidebar :username="username" :type="type" :current-menu="currentMenu"></sidebar>
+
+    <div class="content-container">
+      <div class="title-block-container clearfix">
+        <p class="block-title">List</p>
+      </div>
+      <div class="table-responsive"><table class="table tms-table">
+        <thead>
+          <tr>
+              <th scope="col">Block ID</th>
+              <th scope="col">Case ID</th>
+              <th scope="col">Data Source ID</th>
+              <th scope="col">Date Created</th>
+              <th scope="col">Active</th>
+              <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(row, index) in list">
+            <td v-text="row._id"></td>
+            <td v-text="row.name"></td>
+            <td>
+              <a :href="'https://docs.google.com/spreadsheets/d/'+row.sheet" target="_blank">{{row.sheet}}</a>
+            </td>
+            <td v-text="toLocalTime(row.date)"></td>
+            <td>
+              <span class="tms-switch">
+                <input type="checkbox" class="tms-switch-input" :id="'status-switch-' + row._id" @change="changeStatus(index)" v-model="row.enabled">
+                <label class="tms-switch-label" :for="'status-switch-' + row._id"></label>
+              </span>
+            </td>
+            <td>
+              <a class="btn btn-sm btn-blue" href="edit.html">Edit</a>
+              <a class="btn btn-sm btn-blue" href="view.html">View</a>
+              <a class="btn btn-sm btn-blue" href="log.html">Log</a>
+            </td>
+          </tr>
+        </tbody>
+      </table></div>
+    </div>
+    <comfirm-cookies></comfirm-cookies>
+  </div>
+</body>
+</html>

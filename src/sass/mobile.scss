@@ -1,0 +1,127 @@
+//mobile
+@media (max-width: 768px) {
+	.visible-xs {
+		display: block !important;
+	}
+	.hidden-xs {
+		display: none !important;
+	}
+
+	.content-container {
+	  margin-left: 0;
+	  min-height: 70vh;
+	  .content-container-inner {
+	    padding: 75px 30px 30px 30px;
+	    min-height: calc(70vh - 75px);
+	  }
+	}
+	.toolbar {
+	  top: 0px;
+	  left: 0px;
+	  padding: 16px 20px;
+	  width: 100%;
+   	  box-sizing: border-box;
+   	  font-size: $s-font;
+   	  .logo {
+   	  	height: 35px;
+	  }
+	}
+
+	.sidebar-container {
+		position: static;
+	  	min-height: 50vh;
+	  	padding: 30px;
+	  	.info-block {
+		    padding: 16px 12px;
+		    margin-bottom: 30px;
+		    font-size: $m-font;
+		 }
+	}
+
+	.bif-block {
+		font-size: $s-font;
+	}
+	.bif-logo img {
+	    width: 30vw;
+	}
+
+	.num-block {
+		margin-bottom: 16px;
+		.sheet-link {
+		    padding: 16px 0;
+		    font-size: $s-font;
+		}
+	}
+
+	//table
+	.table-responsive {
+	  max-width: 90vw;
+	  table {
+	      thead th {
+	        padding: 12px 8px;
+	      }
+	      th, td {
+	        padding: 12px 8px;
+	      }
+	  }
+	}
+
+	.about-cover {
+	  nav {
+	    margin: 4px 12px;
+	  }
+	}
+	.about-cover-inner {
+	  padding-top: 20px;
+	  padding-bottom: 40px;
+	  width: 80%;
+	  font-size: $m-font;
+
+	  h3 {
+	    font-size: $l-font;
+	  }
+	}
+	.about-container {
+		margin-top: 0;
+		padding: 45px 30px;
+		position: static;
+	  
+		.printscreen {
+			width: 90%;
+			margin-bottom: 30px;
+		}
+
+		.block {
+			&:first-child {
+				margin-top: 0;
+			}
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+
+		&:before, &:after {
+			display: none;
+		}
+	}
+
+	footer {
+	  .inner {
+	    padding: 16px 30px;
+	  }
+	  .link-group-block {
+	    margin-top: 0px;
+	    li {
+	      margin-left: 8px;
+	    }
+	    a {;
+	      font-size: $xl-font;
+	    }
+	  }
+	}
+}
+
+/* Landscape */
+@media (max-width: 768px) and (orientation: landscape) {
+  	
+}

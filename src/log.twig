@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% include 'partial/header.twig' %}
+	{% include 'partial/lib.twig' %}
+</head>
+<body class="theme-decx lang-{{ htmlWebpackPlugin.options.data.lang }}">
+  <div id="vue" class="row page-container">
+    <logout-modal></logout-modal>
+    <nav class="navbar fixed-top nav-container navbar-mobile">
+      <navbar-header :username="username" :type="type"/>
+    </nav>
+    <sidebar :username="username" :type="type" :current-menu="currentMenu"></sidebar>
+
+    <div class="content-container">
+      <div class="title-block-container clearfix">
+        <p class="block-title">Log</p>
+        <a class="btn btn-blue float-right" href="list.html">Back</a>
+      </div>
+      <div class="table-responsive"><table class="table tms-table table-striped">
+        <thead>
+          <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Product Name</th>
+              <th scope="col">SKU</th>
+              <th scope="col">Info</th>
+              <th scope="col">Price</th>
+              <th scope="col">Stock</th>
+              <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(row, index) in log">
+            <td v-text="row._id"></td>
+            <td v-text="row.name"></td>
+            <td v-text="row.sku"></td>
+            <td v-text="row.price"></td>
+            <td v-text="row.info"></td>
+            <td v-text="row.stock"></td>
+            <td v-text="row.status"></td>
+          </tr>
+        </tbody>
+      </table></div>
+      <div class="pagination-block clearfix">
+        <span class="pagination-info d-inline-block float-left">Showing 1 - 10 of 24</span>
+        <ul class="pagination float-right">
+            <li class="page-item disabled">
+              <a class="page-link" href="#" aria-label="Strat">
+                <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Previous">
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+              </a>
+            </li>
+            <li class="page-item page-num active" aria-current="page"><a class="page-link" href="#">1</a></li>
+            <li class="page-item page-num"><a class="page-link" href="#">2</a></li>
+            <li class="page-item page-num"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Next">
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="End">
+                <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+              </a>
+            </li>
+        </ul>
+      </div>
+    </div>
+    <comfirm-cookies></comfirm-cookies>
+  </div>
+</body>
+</html>
